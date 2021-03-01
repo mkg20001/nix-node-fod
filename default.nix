@@ -1,5 +1,6 @@
 { nodejs_latest
 , yarn
+, git
 , lib
 , ...
 }:
@@ -35,7 +36,7 @@ let
   node_modules = stdenvNoCC.mkDerivation(extraBuild // {
     inherit meta pname version src;
 
-    buildInputs = [ node ]
+    nativeBuildInputs = [ node git ]
       ++ (lib.optionals useYarn [ yarn ]);
 
     buildPhase = if useYarn then ''
@@ -62,7 +63,8 @@ stdenv.mkDerivation (extraBuild // cleanAttrs // {
   buildInputs = [ ];
 
   nativeBuildInputs = nativeBuildInputs
-    ++ (lib.optionals useYarn [ yarn ]);
+    ++ (lib.optionals useYarn [ yarn ])
+    ++ [ git ];
 
   buildInputs = buildInputs
     ++ [ node ];
