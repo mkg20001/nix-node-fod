@@ -46,15 +46,15 @@ let
     nativeBuildInputs = [ node git cacert ]
       ++ (lib.optionals useYarn [ yarn ]);
 
-    configurePhase = ''
-      mkdir -p $out
-      ln -s $out node_modules
-    '';
-
     buildPhase = if useYarn then ''
       HOME=/tmp yarn install --frozen-lockfile
     '' else ''
       HOME=/tmp npm ci
+    '';
+
+    installPhase = ''
+      rm -rf $out
+      cp -rp node_modules $out
     '';
 
     outputHashAlgo = if (depsSha256 != null) then "sha256" else null;
