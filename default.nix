@@ -60,8 +60,6 @@ in
 stdenv.mkDerivation (extraBuild // cleanAttrs // {
   preBuildPhases = [ "nodeModCopy" ];
 
-  buildInputs = [ ];
-
   nativeBuildInputs = nativeBuildInputs
     ++ (lib.optionals useYarn [ yarn ])
     ++ [ git ];
