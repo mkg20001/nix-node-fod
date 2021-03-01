@@ -8,7 +8,7 @@
 , ...
 }:
 
-{ depsSha256 ? null, depsHash ? null # hash of dependency
+{ depsSha256 ? null, depsHash ? "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" # hash of dependency
 , node ? nodejs_latest # node version to use
 , useYarn ? false # use yarn instead of npm
 , forceRebuild ? true # always rebuild downloaded binaries instead of pulling them
@@ -53,7 +53,8 @@ let
     '';
 
     installPhase = ''
-      cp -rp node_modules $out
+      chmod a-w node_modules
+      cp -r node_modules $out
     '';
 
     outputHashAlgo = if (depsSha256 != null) then "sha256" else null;
@@ -69,7 +70,7 @@ stdenv.mkDerivation (extraBuild // cleanAttrs // {
 
   nativeBuildInputs = nativeBuildInputs
     ++ (lib.optionals useYarn [ yarn ])
-    ++ [ git ];
+    ++ [ git node ];
 
   buildInputs = buildInputs
     ++ [ node ];
