@@ -2,6 +2,7 @@
 , yarn
 , git
 , lib
+, cacert
 , stdenv
 , stdenvNoCC
 , ...
@@ -11,6 +12,8 @@
 , node ? nodejs_latest # node version to use
 , useYarn ? false # use yarn instead of npm
 , forceRebuild ? true # always rebuild downloaded binaries instead of pulling them
+# TODO: fetch deps for install with --production and add option for it
+# TODO: add option for non-install deps and set it to default true
 
 , meta ? {}, pname, version, src, installPhase ? null, nativeBuildInputs ? [], buildInputs ? []
 , ... }@attrs:
@@ -36,9 +39,11 @@ let
   };
 
   node_modules = stdenvNoCC.mkDerivation(extraBuild // {
-    inherit meta pname version src;
+    inherit meta src;
 
-    nativeBuildInputs = [ node git ]
+    name = "node-deps-${pname}";
+
+    nativeBuildInputs = [ node git cacert ]
       ++ (lib.optionals useYarn [ yarn ]);
 
     buildPhase = if useYarn then ''
