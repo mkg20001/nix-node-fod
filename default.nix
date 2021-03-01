@@ -53,6 +53,7 @@ let
     '';
 
     installPhase = ''
+      rm -rf $out
       cp --no-preserve=owner,mode,timestamps -r node_modules $out
     '';
 
