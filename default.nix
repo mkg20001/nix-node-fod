@@ -53,8 +53,7 @@ let
     '';
 
     installPhase = ''
-      chmod a-w -R node_modules
-      cp -r node_modules $out
+      cp --no-preserve=owner,mode,timestamps -r node_modules $out
     '';
 
     outputHashAlgo = if (depsSha256 != null) then "sha256" else null;
