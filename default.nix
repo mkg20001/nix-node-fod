@@ -84,7 +84,7 @@ stdenv.mkDerivation (extraBuild // cleanAttrs // {
     cat "$out/package.json" | jq -r --arg out "$out" 'select(.bin != null) | .bin | to_entries | .[] | ["ln", "-s", $out + "/" + .value, $out + "/bin/" + .key] | join(" ")' | sh -ex -
   '';
 
-  installPhase = if (installPhase != null) then installPhase else''
+  installPhase = if (installPhase != null) then installPhase else ''
     runHook nodeInstall
   '';
 })
