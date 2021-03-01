@@ -2,6 +2,8 @@
 , yarn
 , git
 , lib
+, stdenv
+, stdenvNoCC
 , ...
 }:
 
