@@ -53,7 +53,7 @@ let
     '';
 
     installPhase = ''
-      chmod a-w node_modules
+      chmod a-w -R node_modules
       cp -r node_modules $out
     '';
 
