@@ -21,7 +21,7 @@
 , ... }@attrs:
 
 let
-  cleanAttrs = builtins.removeAttrs attrs ["depsSha256" "depsHash" "node" "useYarn" "forceRebuild"];
+  cleanAttrs = builtins.removeAttrs attrs ["depsSha256" "depsHash" "node" "useYarn" "forceRebuild" "depsAttrs"];
 
   extraBuild = {
     prePhases = [ "nodeExports" "nodeGypHeaders" ];
