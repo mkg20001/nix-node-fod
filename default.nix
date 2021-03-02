@@ -57,6 +57,8 @@ let
       cp -rp node_modules $out
     '';
 
+    dontFixup = true;
+
     outputHashAlgo = if (depsSha256 != null) then "sha256" else null;
     outputHashMode = "recursive";
     outputHash = if (depsSha256 != null) then depsSha256 else depsHash;
