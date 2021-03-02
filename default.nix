@@ -56,8 +56,10 @@ let
     '';
 
     installPhase = ''
+      runHook preInstall
       rm -rf $out
       tar cfzp $out $(find -type d -name node_modules)
+      runHook postInstall
     '';
 
     outputHashAlgo = if (depsSha256 != null) then "sha256" else null;
