@@ -16,6 +16,7 @@
 , depsAttrs ? {} # extra attributes for fetchderivation
 # TODO: fetch deps for install with --production and add option for it
 # TODO: add option for non-install deps and set it to default true
+# TODO: support multipackage repos, by doing a find for -name node_modules -type d and adding that to tar
 
 , meta ? {}, pname, version, src, installPhase ? null, nativeBuildInputs ? [], buildInputs ? []
 , ... }@attrs:
@@ -56,7 +57,7 @@ let
 
     installPhase = ''
       rm -rf $out
-      tar cfzp $out node_modules
+      tar cfzp $out $(find -type d -name node_modules)
     '';
 
     outputHashAlgo = if (depsSha256 != null) then "sha256" else null;
@@ -79,7 +80,7 @@ stdenv.mkDerivation (extraBuild // cleanAttrs // {
 
   nodeModCopy = ''
     tar xfz ${node_modules}
-    patchShebangs node_modules
+    patchShebangs $(find -type d -name node_modules)
   '';
 
   nodeInstall = ''
