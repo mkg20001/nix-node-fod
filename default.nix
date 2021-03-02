@@ -13,6 +13,7 @@
 , node ? nodejs_latest # node version to use
 , useYarn ? false # use yarn instead of npm
 , forceRebuild ? true # always rebuild downloaded binaries instead of pulling them
+, depsAttrs ? {} # extra attributes for fetchderivation
 # TODO: fetch deps for install with --production and add option for it
 # TODO: add option for non-install deps and set it to default true
 
@@ -39,7 +40,7 @@ let
     '';
   };
 
-  node_modules = stdenvNoCC.mkDerivation(extraBuild // {
+  node_modules = stdenvNoCC.mkDerivation(extraBuild // depsAttrs // {
     inherit meta src;
 
     name = "node-deps-${pname}.tar.gz";
