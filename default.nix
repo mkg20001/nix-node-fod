@@ -95,6 +95,8 @@ stdenv.mkDerivation (extraBuild // cleanAttrs // {
   '';
 
   installPhase = if (installPhase != null) then installPhase else ''
+    runHook preInstall
     runHook nodeInstall
+    runHook postInstall
   '';
 })
