@@ -42,7 +42,7 @@ let
   node_modules = stdenvNoCC.mkDerivation(extraBuild // {
     inherit meta src;
 
-    name = "node-deps-${pname}";
+    name = "node-deps-${pname}.tar.gz";
 
     nativeBuildInputs = [ node git cacert ]
       ++ (lib.optionals useYarn [ yarn ]);
@@ -55,7 +55,7 @@ let
 
     installPhase = ''
       rm -rf $out
-      cp -rp node_modules $out
+      tar cfzp $out node_modules
     '';
 
     dontFixup = true;
@@ -79,7 +79,7 @@ stdenv.mkDerivation (extraBuild // cleanAttrs // {
     ++ [ node ];
 
   nodeModCopy = ''
-    cp -rp ${node_modules} node_modules
+    tar xfz ${node_modules}
   '';
 
   nodeInstall = ''
@@ -88,7 +88,7 @@ stdenv.mkDerivation (extraBuild // cleanAttrs // {
     mkdir -p "$out"
     cp -a package/. "$out"
 
-    cp -rp ${node_modules} $out/node_modules
+    tar xfz ${node_modules} -C $out
 
     mkdir -p $out/bin
     # TODO: will possibly break if .bin is literal string (in which case we need to map it to {key: .name, value: .bin})
