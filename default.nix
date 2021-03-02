@@ -1,6 +1,7 @@
 { nodejs_latest
 , yarn
 , git
+, jq
 , lib
 , cacert
 , stdenv
@@ -72,7 +73,7 @@ stdenv.mkDerivation (extraBuild // cleanAttrs // {
 
   nativeBuildInputs = nativeBuildInputs
     ++ (lib.optionals useYarn [ yarn ])
-    ++ [ git node ];
+    ++ [ git node jq ];
 
   buildInputs = buildInputs
     ++ [ node ];
