@@ -78,6 +78,7 @@ stdenv.mkDerivation (extraBuild // cleanAttrs // {
 
   nodeModCopy = ''
     tar xfz ${node_modules}
+    patchShebangs node_modules
   '';
 
   nodeInstall = ''
