@@ -59,11 +59,11 @@ let
       runHook preInstall
       rm -rf $out
 
-      GZIP=-9n tar --sort=name \
-            --mtime="@''${SOURCE_DATE_EPOCH}" \
-            --owner=0 --group=0 --numeric-owner \
-            --pax-option=exthdr.name=%d/PaxHeaders/%f,delete=atime,delete=ctime \
-            cfzp $out $(find -type d -name node_modules)
+      GZIP=-9n tar cfzp $out $(find -type d -name node_modules) \
+        --sort=name \
+        --mtime="@''${SOURCE_DATE_EPOCH}" \
+        --owner=0 --group=0 --numeric-owner \
+        --pax-option=exthdr.name=%d/PaxHeaders/%f,delete=atime,delete=ctime
 
       runHook postInstall
     '';
