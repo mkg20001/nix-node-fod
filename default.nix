@@ -59,7 +59,7 @@ let
       runHook preInstall
       rm -rf $out
 
-      GZIP=-9n tar cfzp $out $(find -type d -name node_modules) \
+      tar cfz $out $(find -type d -name node_modules) \
         --sort=name \
         --mtime="@''${SOURCE_DATE_EPOCH}" \
         --owner=0 --group=0 --numeric-owner \
